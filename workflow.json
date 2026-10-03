@@ -1,0 +1,28 @@
+{
+  "name": "AI Hook Generator (Free)",
+  "nodes": [
+    { "parameters": {}, "id": "f0a1f0aa-0001-4000-8000-000000000001", "name": "Start", "type": "n8n-nodes-base.manualTrigger", "typeVersion": 1, "position": [-560, 0] },
+    { "parameters": { "assignments": { "assignments": [
+      { "id": "a1", "name": "topic", "value": "why most content fails to get clicks", "type": "string" },
+      { "id": "a2", "name": "audience", "value": "founders and creators", "type": "string" },
+      { "id": "a3", "name": "tone", "value": "direct, curious, no hype", "type": "string" }
+    ] }, "options": {} }, "id": "f0a1f0aa-0002-4000-8000-000000000002", "name": "Input", "type": "n8n-nodes-base.set", "typeVersion": 3.4, "position": [-340, 0] },
+    { "parameters": { "model": "gpt-4o-mini", "messages": { "values": [
+      { "role": "system", "content": "You write scroll-stopping hooks. Return ONLY valid JSON, no markdown fences." },
+      { "role": "user", "content": "=Topic: {{$json.topic}}\nAudience: {{$json.audience}}\nTone: {{$json.tone}}\n\nWrite 10 hooks that make the audience stop scrolling. Mix these styles: bold claim, contrarian, specific number, question, mistake/warning.\nEach hook under 120 characters.\n\nReturn JSON: { \"hooks\": [ { \"style\": \"...\", \"text\": \"...\" } ] }" }
+    ] }, "options": {} }, "id": "f0a1f0aa-0003-4000-8000-000000000003", "name": "Generate Hooks (LLM)", "type": "@n8n/n8n-nodes-langchain.openAi", "typeVersion": 1.8, "position": [-120, 0] },
+    { "parameters": { "assignments": { "assignments": [
+      { "id": "o1", "name": "hooks", "value": "={{ $json.message.content }}", "type": "string" }
+    ] }, "options": {} }, "id": "f0a1f0aa-0004-4000-8000-000000000004", "name": "Output", "type": "n8n-nodes-base.set", "typeVersion": 3.4, "position": [100, 0] }
+  ],
+  "connections": {
+    "Start": { "main": [[{ "node": "Input", "type": "main", "index": 0 }]] },
+    "Input": { "main": [[{ "node": "Generate Hooks (LLM)", "type": "main", "index": 0 }]] },
+    "Generate Hooks (LLM)": { "main": [[{ "node": "Output", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "f0a1f0aa-1000-4000-8000-000000000001",
+  "meta": { "templateCredsSetupCompleted": false },
+  "tags": []
+}
