@@ -15,6 +15,8 @@ Type a topic, get **10 scroll-stopping hooks** in five styles (bold claim, contr
 
 **Output:** `hooks` — JSON array of `{ "style": "...", "text": "..." }`.
 
+**Copy-paste examples:** [`EXAMPLES.md`](EXAMPLES.md) — 3 ready inputs (founder content, freelancer leads, newsletter teasers) with sample outputs.
+
 Works with any OpenAI-compatible model (default `gpt-4o-mini`). One LLM call per run — well under a cent.
 
 ## The rest of the engine
