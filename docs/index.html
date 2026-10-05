@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free n8n AI Hook Generator Workflow Template — AI Automation Lab</title>
+<meta name="description" content="Free n8n workflow: type a topic, get 10 scroll-stopping hooks in five styles. Import the JSON, connect OpenAI, run it. Plus paid n8n templates for content repurposing, SEO blogs and inbox triage.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://zhp910318.github.io/n8n-ai-automation-lab/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Free n8n AI Hook Generator Workflow Template">
+<meta property="og:description" content="Type a topic, get 10 scroll-stopping hooks. A free, import-ready n8n workflow. No signup required.">
+<meta property="og:url" content="https://zhp910318.github.io/n8n-ai-automation-lab/">
+<meta property="og:site_name" content="AI Automation Lab">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free n8n AI Hook Generator Workflow Template">
+<meta name="twitter:description" content="Type a topic, get 10 scroll-stopping hooks. Free import-ready n8n workflow.">
+<meta name="theme-color" content="#0b0f17">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪝</text></svg>">
+<style>
+  :root{
+    --bg:#0b0f17;--panel:#121a28;--panel2:#0f1622;--line:#22304a;
+    --txt:#e7eefc;--mut:#9fb0cc;--acc:#41d1a7;--acc2:#5b8cff;--warn:#ffcc66;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:radial-gradient(1200px 600px at 80% -10%,#14243d 0%,var(--bg) 55%);color:var(--txt);
+    font:16px/1.65 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  a{color:var(--acc2);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px}
+  header{padding:22px 0;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .brand{font-weight:700;letter-spacing:.2px}
+  .brand span{color:var(--acc)}
+  nav a{margin-left:16px;color:var(--mut);font-size:14px}
+  .hero{padding:46px 0 10px;text-align:left}
+  .pill{display:inline-block;font-size:12px;color:var(--acc);border:1px solid var(--line);
+    background:var(--panel2);border-radius:999px;padding:6px 12px;margin-bottom:18px}
+  h1{font-size:clamp(30px,5vw,46px);line-height:1.12;margin:0 0 16px;letter-spacing:-.5px}
+  h1 em{font-style:normal;color:var(--acc)}
+  .sub{font-size:19px;color:var(--mut);max-width:720px;margin:0 0 26px}
+  .cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  .btn{display:inline-block;background:linear-gradient(180deg,#4ee2b6,#2fb98f);color:#052015;font-weight:700;
+    padding:13px 22px;border-radius:12px;border:0}
+  .btn:hover{text-decoration:none;filter:brightness(1.05)}
+  .btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line);font-weight:600}
+  .note{font-size:13px;color:var(--mut)}
+  section{padding:38px 0;border-top:1px solid var(--line);margin-top:36px}
+  h2{font-size:24px;margin:0 0 18px;letter-spacing:-.3px}
+  .grid{display:grid;gap:14px}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);
+    border-radius:14px;padding:18px}
+  .card h3{margin:0 0 8px;font-size:17px}
+  .card p{margin:0;color:var(--mut);font-size:14.5px}
+  .tag{font-size:11px;color:var(--acc);text-transform:uppercase;letter-spacing:.08em}
+  ol.steps{counter-reset:s;list-style:none;padding:0;margin:0}
+  ol.steps li{counter-increment:s;position:relative;padding:12px 0 12px 46px;border-bottom:1px dashed var(--line)}
+  ol.steps li:last-child{border-bottom:0}
+  ol.steps li::before{content:counter(s);position:absolute;left:0;top:12px;width:30px;height:30px;
+    border-radius:50%;display:grid;place-items:center;background:var(--panel);border:1px solid var(--line);
+    color:var(--acc);font-weight:700;font-size:14px}
+  pre{background:#080d16;border:1px solid var(--line);border-radius:12px;padding:14px;overflow:auto;font-size:13px;color:#cfe3ff}
+  .prod{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:14px 16px;
+    background:var(--panel2);border:1px solid var(--line);border-radius:12px;margin-bottom:10px}
+  .prod b{font-weight:650}
+  .price{white-space:nowrap;color:var(--acc);font-weight:700}
+  details{border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:8px;background:var(--panel2)}
+  summary{cursor:pointer;font-weight:600}
+  details p{color:var(--mut);margin:10px 0 0}
+  footer{padding:34px 0 60px;color:var(--mut);font-size:13px;border-top:1px solid var(--line);margin-top:40px}
+  .ok{color:var(--acc)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">AI Automation <span>Lab</span></div>
+    <nav>
+      <a href="#how">How it works</a>
+      <a href="#templates">Templates</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero">
+      <span class="pill">Free · MIT · no signup</span>
+      <h1>Type a topic. Get <em>10 scroll-stopping hooks</em> — with a free n8n workflow.</h1>
+      <p class="sub">The AI Hook Generator is a ready-to-import n8n template. You give it a topic, an audience and a tone; it returns 10 hooks in five proven styles, each under 120 characters and ready to paste into a post, thread or video script.</p>
+      <div class="cta">
+        <a class="btn" href="https://github.com/zhp910318/n8n-ai-automation-lab/raw/main/workflow.json">Download workflow.json</a>
+        <a class="btn ghost" href="https://payhip.com/b/ulER8">Get it on the store ↗</a>
+      </div>
+      <p class="note" style="margin-top:14px">Works with any OpenAI-compatible model (default <code>gpt-4o-mini</code>). One LLM call per run — well under a cent.</p>
+    </div>
+
+    <section id="how">
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li>Open n8n → <b>Workflows → Import from File</b> → select <code>workflow.json</code>.</li>
+        <li>Open <b>Generate Hooks (LLM)</b> → attach your OpenAI (or compatible) credential.</li>
+        <li>Open <b>Input</b> → set <code>topic</code>, <code>audience</code>, <code>tone</code>.</li>
+        <li>Click <b>Test workflow</b>. You get <code>hooks</code> — a JSON array of <code>{ style, text }</code>.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>What you get</h2>
+      <div class="grid g3">
+        <div class="card"><div class="tag">5 styles</div><h3>Hooks that fit any post</h3><p>Bold claim, contrarian, specific number, question, mistake/warning — so you always have an angle.</p></div>
+        <div class="card"><div class="tag">Output</div><h3>Clean JSON</h3><p>Strict JSON, so you can pipe it straight into a scheduler or another node — no cleanup.</p></div>
+        <div class="card"><div class="tag">Examples</div><h3>Copy-paste inputs</h3><p>Three ready input sets (founder content, freelancer leads, newsletter teasers) in <a href="https://github.com/zhp910318/n8n-ai-automation-lab/blob/main/EXAMPLES.md">EXAMPLES.md</a>.</p></div>
+      </div>
+    </section>
+
+    <section id="templates">
+      <h2>The rest of the engine</h2>
+      <p class="sub" style="font-size:16px;margin-bottom:18px">The free template gets you started. These do the whole job end-to-end — one input, ready-to-publish output.</p>
+      <div class="prod"><span><b>AI Content Repurposing Engine</b><br><span class="note">One input → X thread + LinkedIn post + newsletter + 5 hooks</span></span><span class="price">$29</span><a class="btn ghost" style="padding:9px 14px" href="https://payhip.com/b/AZTMz">View</a></div>
+      <div class="prod"><span><b>AI Inbox Triage &amp; Reply Drafter</b><br><span class="note">Classify, prioritise and draft replies to every email</span></span><span class="price">$24</span><a class="btn ghost" style="padding:9px 14px" href="https://payhip.com/b/W0mLE">View</a></div>
+      <div class="prod"><span><b>AI SEO Blog Engine</b><br><span class="note">One keyword → publish-ready ~1,400-word article</span></span><span class="price">$34</span><a class="btn ghost" style="padding:9px 14px" href="https://payhip.com/b/7pPno">View</a></div>
+      <p class="note" style="margin-top:14px"><a href="https://payhip.com/haopengailab">Browse the full store ↗</a></p>
+    </section>
+
+    <section id="faq">
+      <h2>FAQ</h2>
+      <details><summary>Do I need a paid n8n plan?</summary><p>No. The workflow runs on n8n Cloud or a self-hosted n8n. You only need an OpenAI-compatible API key.</p></details>
+      <details><summary>Is the Hook Generator really free?</summary><p>Yes — MIT licensed. Download the JSON above, or grab it from the store (a free checkout) if you want updates delivered to you.</p></details>
+      <details><summary>Can I sell or reuse it?</summary><p>Yes, MIT means use it, ship it and change it. Attribution is appreciated but not required.</p></details>
+      <details><summary>Which model should I use?</summary><p>The default is <code>gpt-4o-mini</code> — fast and cheap. Swap the model name in the LLM node for any OpenAI-compatible endpoint.</p></details>
+    </section>
+  </main>
+
+  <footer>
+    <p><b>AI Automation Lab</b> — practical n8n workflows for content and ops automation.<br>
+    Store: <a href="https://payhip.com/haopengailab">payhip.com/haopengailab</a> · Repo: <a href="https://github.com/zhp910318/n8n-ai-automation-lab">github.com/zhp910318/n8n-ai-automation-lab</a></p>
+    <p>Free templates stay free. MIT licensed.</p>
+  </footer>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"SoftwareApplication",
+  "name":"AI Hook Generator (n8n workflow template)",
+  "applicationCategory":"BusinessApplication",
+  "operatingSystem":"n8n",
+  "description":"A free n8n workflow template: type a topic and get 10 scroll-stopping hooks in five styles.",
+  "license":"https://opensource.org/licenses/MIT",
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD","url":"https://payhip.com/b/ulER8"},
+  "url":"https://zhp910318.github.io/n8n-ai-automation-lab/",
+  "author":{"@type":"Organization","name":"AI Automation Lab","url":"https://payhip.com/haopengailab"}
+}
+</script>
+</body>
+</html>
