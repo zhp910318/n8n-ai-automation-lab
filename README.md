@@ -2,6 +2,8 @@
 
 Practical n8n workflows for content and ops automation. This repo holds the **free** templates from [AI Automation Lab](https://payhip.com/haopengailab). Import them, run them, change them.
 
+> ✅ **Now an official n8n template** — [Generate social content hooks with OpenAI GPT-4o-mini](https://n8n.io/workflows/20418-generate-social-content-hooks-with-openai-gpt-4o-mini/) is live in the n8n template gallery. Install it straight into your n8n instance, or import the JSON below.
+
 ## Included
 
 ### 🪝 AI Hook Generator (`workflow.json`)
@@ -16,6 +18,8 @@ Type a topic, get **10 scroll-stopping hooks** in five styles (bold claim, contr
 **Output:** `hooks` — JSON array of `{ "style": "...", "text": "..." }`.
 
 **Copy-paste examples:** [`EXAMPLES.md`](EXAMPLES.md) — 3 ready inputs (founder content, freelancer leads, newsletter teasers) with sample outputs.
+
+**Install from the official n8n gallery:** [n8n.io → Generate social content hooks with OpenAI GPT-4o-mini](https://n8n.io/workflows/20418-generate-social-content-hooks-with-openai-gpt-4o-mini/)
 
 Works with any OpenAI-compatible model (default `gpt-4o-mini`). One LLM call per run — well under a cent.
 
