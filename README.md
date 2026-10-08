@@ -36,6 +36,17 @@ Paste a messy transcript or a pasted meeting chat and get a clean debrief: a sho
 
 Works with any OpenAI-compatible model (default `gpt-4o-mini`). One LLM call per run.
 
+### 🚨 Failure Alerts — Global Error Workflow (`global-error-alerts/workflow.json`)
+Silent failures are the #1 way automations lose trust. n8n can route **every** workflow failure into one dedicated workflow. This is that workflow: it catches the failed execution, extracts the workflow name, the failing node, the error message, the run mode and the execution link, then posts one readable alert to any Slack-compatible webhook (works with Discord / Teams / Mattermost too).
+
+**How to use**
+1. n8n → **Workflows → Import from File** → select `global-error-alerts/workflow.json`
+2. Open **Send Alert** and replace the placeholder URL with your webhook URL
+3. In any workflow you want to watch: **Settings → Error Workflow** → pick this workflow
+4. Run a workflow with a deliberately broken step to confirm the alert arrives
+
+**Output:** a compact alert payload (workflow, node, error, execution link). No credentials required.
+
 ## The rest of the engine
 Free templates here get you started. The paid workflows in the [AI Automation Lab store](https://payhip.com/haopengailab) do the whole job end-to-end:
 
