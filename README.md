@@ -23,6 +23,19 @@ Type a topic, get **10 scroll-stopping hooks** in five styles (bold claim, contr
 
 Works with any OpenAI-compatible model (default `gpt-4o-mini`). One LLM call per run — well under a cent.
 
+### 📝 Meeting Notes → Action Items (`meeting-notes-to-action-items/workflow.json`)
+Paste a messy transcript or a pasted meeting chat and get a clean debrief: a short **summary**, the **decisions**, a table of **action items with owner + due date**, and a ready-to-send **follow-up email**.
+
+**How to use**
+1. n8n → **Workflows → Import from File** → select `meeting-notes-to-action-items/workflow.json`
+2. Open **Summarize Meeting with OpenAI** → pick your **OpenAI** credential
+3. Open **Set Meeting Notes and Attendees** → paste your notes into `raw_notes` and set `meeting_title`, `attendees`, `tone`
+4. Click **Test workflow**
+
+**Output:** `meeting_summary` — Markdown with Summary / Decisions / Action items / Follow-up email.
+
+Works with any OpenAI-compatible model (default `gpt-4o-mini`). One LLM call per run.
+
 ## The rest of the engine
 Free templates here get you started. The paid workflows in the [AI Automation Lab store](https://payhip.com/haopengailab) do the whole job end-to-end:
 

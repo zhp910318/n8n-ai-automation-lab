@@ -1,0 +1,195 @@
+{
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "name": "Turn meeting notes into action items with OpenAI GPT-4o-mini",
+  "tags": [],
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Try me out!\n\n### Turn meeting notes into action items with OpenAI GPT-4o-mini\n\nThis workflow turns a **raw meeting transcript or bullet notes** into a clean debrief: a short summary, the decisions made, a list of action items with an owner and a due date, and a ready-to-send follow-up email. It runs manually: you paste the notes, GPT-4o-mini structures them, and the last node stores the result for reuse.\n\n### Setup\n1. Add your OpenAI credentials to the *Summarize Meeting with OpenAI* node.\n2. Open *Set Meeting Notes and Attendees* and replace the `meeting_title`, `attendees`, `raw_notes` and `tone` fields with your own meeting notes. `raw_notes` can be a full transcript, a pasted chat log, or a few messy bullets.\n3. Click **Test workflow** to run it. The summary, decisions, action items and follow-up email draft appear in *Set Meeting Summary*.\n\n### Customize\nChange the prompt or the model in the OpenAI node to output a different format: a Slack recap, a Notion-ready checklist, a CRM note, or a client-facing minutes document.",
+        "width": 1120,
+        "height": 420
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -660,
+        -560
+      ],
+      "id": "a9c1f0aa-0001-4000-8000-000000000001",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## 1. Trigger and input\n\nA **manual trigger** starts the run. *Set Meeting Notes and Attendees* defines the `meeting_title`, `attendees`, `raw_notes` and `tone` that drive the summary. Edit these fields to debrief any meeting — everything downstream reads them.",
+        "width": 560,
+        "height": 300,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -660,
+        -120
+      ],
+      "id": "a9c1f0aa-0001-4000-8000-000000000002",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## 2. Summarize and output\n\n*Summarize Meeting with OpenAI* sends the notes to GPT-4o-mini and asks for a fixed set of sections: summary, decisions, action items (with owner and due date) and a follow-up email draft. *Set Meeting Summary* writes the model's reply into a single `meeting_summary` field, ready to copy into your notes, email or chat.",
+        "width": 640,
+        "height": 300,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -60,
+        -120
+      ],
+      "id": "a9c1f0aa-0001-4000-8000-000000000003",
+      "name": "Sticky Note2"
+    },
+    {
+      "id": "a9c1f0aa-0002-4000-8000-000000000001",
+      "name": "Manual Workflow Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        -560,
+        60
+      ],
+      "parameters": {},
+      "typeVersion": 1
+    },
+    {
+      "id": "a9c1f0aa-0002-4000-8000-000000000002",
+      "name": "Set Meeting Notes and Attendees",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -340,
+        60
+      ],
+      "parameters": {
+        "options": {},
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "meeting_title",
+              "type": "string",
+              "value": "Weekly client sync - onboarding"
+            },
+            {
+              "id": "a2",
+              "name": "attendees",
+              "type": "string",
+              "value": "Ana (client), Sam (ops), you"
+            },
+            {
+              "id": "a3",
+              "name": "tone",
+              "type": "string",
+              "value": "clear, friendly, no filler"
+            },
+            {
+              "id": "a4",
+              "name": "raw_notes",
+              "type": "string",
+              "value": "PASTE YOUR MEETING TRANSCRIPT OR NOTES HERE. Example: Ana asked if we can import her old spreadsheet before Friday. Sam said the importer handles CSV but not XLSX yet, so we need a quick conversion step. We agreed to ship CSV import this week and revisit XLSX next sprint. Ana will send the export by Wednesday. Sam will document the conversion step."
+            }
+          ]
+        }
+      },
+      "typeVersion": 3.4
+    },
+    {
+      "id": "a9c1f0aa-0002-4000-8000-000000000003",
+      "name": "Summarize Meeting with OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "position": [
+        0,
+        60
+      ],
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "options": {},
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You turn messy meeting notes into a crisp debrief. Only use information present in the notes. If something is unknown, write \"not stated\" instead of guessing. Return plain Markdown, no code fences."
+            },
+            {
+              "role": "user",
+              "content": "=Meeting: {{$json.meeting_title}}\nAttendees: {{$json.attendees}}\nTone: {{$json.tone}}\n\nNOTES:\n{{$json.raw_notes}}\n\nWrite a debrief with exactly these sections:\n\n## Summary\n2-3 sentences on what the meeting was about and where it landed.\n\n## Decisions\nBullet list of decisions that were actually made.\n\n## Action items\nA Markdown table with columns: Action | Owner | Due. Only include real commitments found in the notes.\n\n## Follow-up email\nA short ready-to-send email in this tone: {{$json.tone}}. Include a subject line, a 1-line recap, the action items, and a friendly sign-off."
+            }
+          ]
+        }
+      },
+      "typeVersion": 1.8
+    },
+    {
+      "id": "a9c1f0aa-0002-4000-8000-000000000004",
+      "name": "Set Meeting Summary",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        240,
+        60
+      ],
+      "parameters": {
+        "options": {},
+        "assignments": {
+          "assignments": [
+            {
+              "id": "o1",
+              "name": "meeting_summary",
+              "type": "string",
+              "value": "={{ $json.message.content }}"
+            }
+          ]
+        }
+      },
+      "typeVersion": 3.4
+    }
+  ],
+  "active": false,
+  "settings": {},
+  "versionId": "a9c1f0aa-1000-4000-8000-000000000001",
+  "connections": {
+    "Manual Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set Meeting Notes and Attendees",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Meeting Notes and Attendees": {
+      "main": [
+        [
+          {
+            "node": "Summarize Meeting with OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize Meeting with OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Set Meeting Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
