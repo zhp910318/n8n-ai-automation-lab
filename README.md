@@ -4,6 +4,8 @@ Practical n8n workflows for content and ops automation. This repo holds the **fr
 
 > ✅ **Now an official n8n template** — [Generate social content hooks with OpenAI GPT-4o-mini](https://n8n.io/workflows/20418-generate-social-content-hooks-with-openai-gpt-4o-mini/) is live in the n8n template gallery. Install it straight into your n8n instance, or import the JSON below.
 
+> 📬 **Get the free workflows + new ones by email** — [join the (free) list](https://docs.google.com/forms/d/e/1FAIpQLSfLNWGLtGCb-P--kYcFqCQVzw_a_sUc4vSMml7qJAjnoOjECA/viewform). I send the free templates plus occasional automation tips. No spam, unsubscribe anytime.
+
 ## Included
 
 ### 🪝 AI Hook Generator (`workflow.json`)
