@@ -34,9 +34,9 @@ Paste a messy transcript or a pasted meeting chat and get a clean debrief: a sho
 3. Open **Set Meeting Notes and Attendees** → paste your notes into `raw_notes` and set `meeting_title`, `attendees`, `tone`
 4. Click **Test workflow**
 
-**Output:** `meeting_summary` — Markdown with Summary / Decisions / Action items / Follow-up email.
+**Output:** `meeting_summary` (Markdown: Summary / Decisions / Action items / Follow-up email), plus `follow_up_email` and `action_item_count`.
 
-Works with any OpenAI-compatible model (default `gpt-4o-mini`). One LLM call per run.
+The model is asked for **structured JSON** and a **Code** node parses it safely — if the reply isn't valid JSON the workflow still returns the prose instead of crashing — then builds the Markdown table and counts open action items. The prompt forbids inventing facts (unknowns come back as `not stated`). Works with any OpenAI-compatible model (default `gpt-4o-mini`). One LLM call per run.
 
 ### 🚨 Failure Alerts — Global Error Workflow (`global-error-alerts/workflow.json`)
 Silent failures are the #1 way automations lose trust. n8n can route **every** workflow failure into one dedicated workflow. This is that workflow: it catches the failed execution, extracts the workflow name, the failing node, the error message, the run mode and the execution link, then posts one readable alert to any Slack-compatible webhook (works with Discord / Teams / Mattermost too).

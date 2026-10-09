@@ -2,28 +2,28 @@
   "meta": {
     "templateCredsSetupCompleted": false
   },
-  "name": "Turn meeting notes into action items with OpenAI GPT-4o-mini",
+  "name": "Turn meeting notes into action items and a follow-up email with OpenAI",
   "tags": [],
   "nodes": [
     {
       "parameters": {
-        "content": "## Try me out!\n\n### Turn meeting notes into action items with OpenAI GPT-4o-mini\n\nThis workflow turns a **raw meeting transcript or bullet notes** into a clean debrief: a short summary, the decisions made, a list of action items with an owner and a due date, and a ready-to-send follow-up email. It runs manually: you paste the notes, GPT-4o-mini structures them, and the last node stores the result for reuse.\n\n### Setup\n1. Add your OpenAI credentials to the *Summarize Meeting with OpenAI* node.\n2. Open *Set Meeting Notes and Attendees* and replace the `meeting_title`, `attendees`, `raw_notes` and `tone` fields with your own meeting notes. `raw_notes` can be a full transcript, a pasted chat log, or a few messy bullets.\n3. Click **Test workflow** to run it. The summary, decisions, action items and follow-up email draft appear in *Set Meeting Summary*.\n\n### Customize\nChange the prompt or the model in the OpenAI node to output a different format: a Slack recap, a Notion-ready checklist, a CRM note, or a client-facing minutes document.",
-        "width": 1120,
-        "height": 420
+        "content": "## Try me out!\n\n### Turn meeting notes into action items with OpenAI\n\nPaste a meeting transcript (or a few messy bullets) and this workflow returns a clean debrief: a short summary, the decisions that were actually made, a table of **action items with an owner and due date**, and a ready-to-send follow-up email — plus a count of open action items you can branch on later.\n\nUnlike a plain \"summarize this\" prompt, the model is asked for **structured JSON**, and a Code node parses it safely: if the reply is not valid JSON, the workflow still returns the prose instead of crashing. The prompt also forbids inventing facts — anything not in the notes is written as `not stated`.\n\n### Setup\n1. Add your OpenAI credentials to the *Summarize Meeting with OpenAI* node. GPT-4o-mini is cheap (well under $0.01 per meeting).\n2. Open *Set Meeting Notes and Attendees* and replace `meeting_title`, `attendees`, `tone` and `raw_notes` with your own meeting. `raw_notes` accepts a full transcript, a pasted chat log, or messy bullets.\n3. Click **Test workflow**. The finished debrief appears in *Set Meeting Summary* as `meeting_summary`, `follow_up_email` and `action_item_count`.\n\n### Customize\n- Change the model in the OpenAI node (GPT-4o, or any OpenAI-compatible endpoint) for better extraction on long transcripts.\n- Swap the final *Set Meeting Summary* node for Slack, Gmail or Notion to deliver the debrief automatically.\n- Feed `action_item_count` into an IF node to escalate meetings that produced too many open items.\n\nMIT-licensed and free. Part of a free, open-source n8n workflow library with more ready-to-import templates: https://github.com/zhp910318/n8n-ai-automation-lab",
+        "width": 1160,
+        "height": 560
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
         -660,
-        -560
+        -700
       ],
-      "id": "a9c1f0aa-0001-4000-8000-000000000001",
+      "id": "b9c1f0aa-0001-4000-8000-000000000001",
       "name": "Sticky Note"
     },
     {
       "parameters": {
-        "content": "## 1. Trigger and input\n\nA **manual trigger** starts the run. *Set Meeting Notes and Attendees* defines the `meeting_title`, `attendees`, `raw_notes` and `tone` that drive the summary. Edit these fields to debrief any meeting — everything downstream reads them.",
-        "width": 560,
+        "content": "## 1. Trigger and input\n\nA **manual trigger** starts the run. *Set Meeting Notes and Attendees* holds the `meeting_title`, `attendees`, `tone` and `raw_notes` that drive everything downstream. Edit these fields to debrief any meeting — no other node needs changing.",
+        "width": 620,
         "height": 300,
         "color": 7
       },
@@ -31,45 +31,61 @@
       "typeVersion": 1,
       "position": [
         -660,
-        -120
+        -100
       ],
-      "id": "a9c1f0aa-0001-4000-8000-000000000002",
+      "id": "b9c1f0aa-0001-4000-8000-000000000002",
       "name": "Sticky Note1"
     },
     {
       "parameters": {
-        "content": "## 2. Summarize and output\n\n*Summarize Meeting with OpenAI* sends the notes to GPT-4o-mini and asks for a fixed set of sections: summary, decisions, action items (with owner and due date) and a follow-up email draft. *Set Meeting Summary* writes the model's reply into a single `meeting_summary` field, ready to copy into your notes, email or chat.",
-        "width": 640,
+        "content": "## 2. Extract a structured debrief\n\n*Summarize Meeting with OpenAI* sends the notes to GPT-4o-mini and asks for **strict JSON** (summary, decisions, action items with owner + due date, follow-up email). The system prompt forbids inventing facts: anything absent from the notes comes back as `not stated`.",
+        "width": 660,
         "height": 300,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -60,
-        -120
+        0,
+        -100
       ],
-      "id": "a9c1f0aa-0001-4000-8000-000000000003",
+      "id": "b9c1f0aa-0001-4000-8000-000000000003",
       "name": "Sticky Note2"
     },
     {
-      "id": "a9c1f0aa-0002-4000-8000-000000000001",
+      "parameters": {
+        "content": "## 3. Parse safely and output\n\n*Parse Meeting Debrief* strips code fences, `JSON.parse`s the reply and falls back to prose if the model returns invalid JSON, so the workflow never hard-fails on a bad completion. It also builds a Markdown table and counts open action items. *Set Meeting Summary* exposes `meeting_summary`, `follow_up_email` and `action_item_count` for the next node.",
+        "width": 720,
+        "height": 320,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        660,
+        -100
+      ],
+      "id": "b9c1f0aa-0001-4000-8000-000000000004",
+      "name": "Sticky Note3"
+    },
+    {
+      "id": "b9c1f0aa-0002-4000-8000-000000000001",
       "name": "Manual Workflow Trigger",
       "type": "n8n-nodes-base.manualTrigger",
       "position": [
         -560,
-        60
+        80
       ],
       "parameters": {},
       "typeVersion": 1
     },
     {
-      "id": "a9c1f0aa-0002-4000-8000-000000000002",
+      "id": "b9c1f0aa-0002-4000-8000-000000000002",
       "name": "Set Meeting Notes and Attendees",
       "type": "n8n-nodes-base.set",
       "position": [
         -340,
-        60
+        80
       ],
       "parameters": {
         "options": {},
@@ -105,12 +121,12 @@
       "typeVersion": 3.4
     },
     {
-      "id": "a9c1f0aa-0002-4000-8000-000000000003",
+      "id": "b9c1f0aa-0002-4000-8000-000000000003",
       "name": "Summarize Meeting with OpenAI",
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "position": [
         0,
-        60
+        80
       ],
       "parameters": {
         "model": "gpt-4o-mini",
@@ -119,11 +135,11 @@
           "values": [
             {
               "role": "system",
-              "content": "You turn messy meeting notes into a crisp debrief. Only use information present in the notes. If something is unknown, write \"not stated\" instead of guessing. Return plain Markdown, no code fences."
+              "content": "You turn messy meeting notes into a structured debrief. Only use information present in the notes. If something is unknown, write \"not stated\" instead of guessing. Reply with a single JSON object and nothing else - no prose, no code fences."
             },
             {
               "role": "user",
-              "content": "=Meeting: {{$json.meeting_title}}\nAttendees: {{$json.attendees}}\nTone: {{$json.tone}}\n\nNOTES:\n{{$json.raw_notes}}\n\nWrite a debrief with exactly these sections:\n\n## Summary\n2-3 sentences on what the meeting was about and where it landed.\n\n## Decisions\nBullet list of decisions that were actually made.\n\n## Action items\nA Markdown table with columns: Action | Owner | Due. Only include real commitments found in the notes.\n\n## Follow-up email\nA short ready-to-send email in this tone: {{$json.tone}}. Include a subject line, a 1-line recap, the action items, and a friendly sign-off."
+              "content": "=Meeting: {{$json.meeting_title}}\nAttendees: {{$json.attendees}}\nPreferred tone for the email: {{$json.tone}}\n\nNOTES:\n{{$json.raw_notes}}\n\nReturn JSON with exactly these keys:\n{\n  \"summary\": \"2-3 sentences on what the meeting was about and where it landed\",\n  \"decisions\": [\"each decision that was actually made\"],\n  \"action_items\": [{\"action\": \"the task\", \"owner\": \"who owns it\", \"due\": \"when it is due\"}],\n  \"follow_up_email\": \"a short ready-to-send email in the preferred tone (include a subject line, a 1-line recap, the action items and a friendly sign-off)\"\n}\n\nRules: only include real commitments found in the notes. Use \"not stated\" for any missing owner or due date. Do not wrap the JSON in code fences."
             }
           ]
         }
@@ -131,12 +147,25 @@
       "typeVersion": 1.8
     },
     {
-      "id": "a9c1f0aa-0002-4000-8000-000000000004",
+      "id": "b9c1f0aa-0002-4000-8000-000000000004",
+      "name": "Parse Meeting Debrief",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        280,
+        80
+      ],
+      "parameters": {
+        "jsCode": "// Robustly parse the OpenAI reply into a structured meeting debrief.\nconst raw = $input.first().json.message?.content ?? '';\nconst cleaned = String(raw).trim().replace(/^```(?:json)?/i, '').replace(/```$/, '').trim();\n\nlet debrief;\ntry {\n  debrief = JSON.parse(cleaned);\n} catch (e) {\n  // Fallback: keep the prose so the workflow still returns something useful.\n  debrief = { summary: cleaned, decisions: [], action_items: [], follow_up_email: '' };\n}\n\nconst decisions = Array.isArray(debrief.decisions) ? debrief.decisions : [];\nconst actionItems = Array.isArray(debrief.action_items) ? debrief.action_items : [];\n\nconst tableRows = actionItems.map(i =>\n  `| ${i.action ?? i.task ?? 'not stated'} | ${i.owner ?? 'not stated'} | ${i.due ?? 'not stated'} |`\n);\n\nconst debrief_markdown = [\n  '## Summary',\n  debrief.summary || 'not stated',\n  '',\n  '## Decisions',\n  decisions.length ? decisions.map(d => `- ${d}`).join('\\n') : '- not stated',\n  '',\n  '## Action items',\n  actionItems.length\n    ? ['| Action | Owner | Due |', '| --- | --- | --- |', ...tableRows].join('\\n')\n    : '- none identified',\n].join('\\n');\n\nreturn [{\n  json: {\n    meeting_title: $('Set Meeting Notes and Attendees').first().json.meeting_title,\n    debrief_markdown,\n    follow_up_email: debrief.follow_up_email || 'not stated',\n    action_item_count: actionItems.length,\n    decisions_count: decisions.length,\n  },\n}];\n"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "b9c1f0aa-0002-4000-8000-000000000005",
       "name": "Set Meeting Summary",
       "type": "n8n-nodes-base.set",
       "position": [
-        240,
-        60
+        560,
+        80
       ],
       "parameters": {
         "options": {},
@@ -146,7 +175,19 @@
               "id": "o1",
               "name": "meeting_summary",
               "type": "string",
-              "value": "={{ $json.message.content }}"
+              "value": "={{ $json.debrief_markdown }}"
+            },
+            {
+              "id": "o2",
+              "name": "follow_up_email",
+              "type": "string",
+              "value": "={{ $json.follow_up_email }}"
+            },
+            {
+              "id": "o3",
+              "name": "action_item_count",
+              "type": "number",
+              "value": "={{ $json.action_item_count }}"
             }
           ]
         }
@@ -156,7 +197,7 @@
   ],
   "active": false,
   "settings": {},
-  "versionId": "a9c1f0aa-1000-4000-8000-000000000001",
+  "versionId": "b9c1f0aa-1000-4000-8000-000000000001",
   "connections": {
     "Manual Workflow Trigger": {
       "main": [
@@ -181,6 +222,17 @@
       ]
     },
     "Summarize Meeting with OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Parse Meeting Debrief",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Meeting Debrief": {
       "main": [
         [
           {
