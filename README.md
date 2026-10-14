@@ -49,6 +49,17 @@ Silent failures are the #1 way automations lose trust. n8n can route **every** w
 
 **Output:** a compact alert payload (workflow, node, error, execution link). No credentials required.
 
+### 🚀 Cross-Border SEO & Multilingual Listing Generator (`cross-border-seo-workflow/workflow.json`)
+Drop in a spreadsheet of your products (SKU / name / category / Chinese description / target country), and this workflow batch-generates **Amazon multilingual listings** (EN/DE/FR/JA/ES) plus a **1200-word SEO blog** for every row — then writes everything back to a results file.
+
+**How to use**
+1. n8n → **Workflows → Import from File** → select `cross-border-seo-workflow/workflow.json`
+2. Open **读取商品表格** → point the input file at your product sheet (e.g. `/data/products.xlsx`)
+3. Set the `SHANNON_API_KEY` environment variable (any OpenAI-compatible key works; get one at https://shannonapi.xyz)
+4. Click **Test workflow**
+
+**Output:** a results spreadsheet with per-product listing JSON + SEO copy. Each row is one independent LLM call — rows scale linearly for high-throughput batches.
+
 ## The rest of the engine
 Free templates here get you started. The paid workflows in the [AI Automation Lab store](https://payhip.com/haopengailab) do the whole job end-to-end:
 
